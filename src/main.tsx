@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import './index.css'
 import App from './App.tsx'
 import RandomExam from './pages/RandomExam'
@@ -49,5 +50,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/practice" element={<Practice />} />
       </Routes>
     </HashRouter>
+    <SpeedInsights />
   </StrictMode>,
 )
