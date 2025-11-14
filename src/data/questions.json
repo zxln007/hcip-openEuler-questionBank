@@ -493,7 +493,7 @@
     "id": 71,
     "type": "multiple",
     "question": "某工程师使用 LVS 配置负载均衡时，采用 DR 的工作模式，配置前业务访问正常，但在配置完成后发现转发不正常。以下哪几项是该工程师需要在 RS 上检查的配置？",
-    "options": ["A. 是否配置了 VIP", "B. 是否在 firewall 中放通了对接口", "C. 是否打开了 ip 转发功能", "D. 是否关闭了 arpf 插"],
+    "options": ["A. 是否配置了 VIP", "B. 是否在 firewall 中放通了对接口", "C. 是否打开了 ip 转发功能", "D. 是否关闭了 arp广播"],
     "correctAnswer": ["A",  "D"]
   },
   {
