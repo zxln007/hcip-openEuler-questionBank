@@ -2,13 +2,26 @@ import { useState } from 'react'
 import { Check, X, ChevronRight, ChevronLeft, RotateCcw } from 'lucide-react'
 import questions from './data/questions.json'
 
-const ExamApp = () => {
+interface ExamAppProps {
+  questions?: any[]
+  themeColor?: 'indigo' | 'green'
+  title?: string
+  subtitle?: string
+}
+
+const ExamApp = ({ 
+  questions: propQuestions, 
+  themeColor = 'indigo',
+  title = 'HCIP-openEuler 刷题系统',
+  subtitle = 'H12-623-CHS (winback考试) V1.0'
+}: ExamAppProps = {}) => {
+  const questionsData = propQuestions || questions
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({})
   const [showResult, setShowResult] = useState(false)
   const [filterType, setFilterType] = useState<'all' | 'judge' | 'single' | 'multiple' | 'fill'>('all')
 
-  const filteredQuestions = (questions as any[]).filter((q) => {
+  const filteredQuestions = (questionsData as any[]).filter((q) => {
     if (filterType === 'all') return true
     return q.type === filterType
   })
@@ -16,12 +29,27 @@ const ExamApp = () => {
   const currentQ = filteredQuestions[currentQuestion]
 
   const totals = {
-    all: (questions as any[]).length,
-    judge: (questions as any[]).filter((q: any) => q.type === 'judge').length,
-    single: (questions as any[]).filter((q: any) => q.type === 'single').length,
-    multiple: (questions as any[]).filter((q: any) => q.type === 'multiple').length,
-    fill: (questions as any[]).filter((q: any) => q.type === 'fill').length,
+    all: (questionsData as any[]).length,
+    judge: (questionsData as any[]).filter((q: any) => q.type === 'judge').length,
+    single: (questionsData as any[]).filter((q: any) => q.type === 'single').length,
+    multiple: (questionsData as any[]).filter((q: any) => q.type === 'multiple').length,
+    fill: (questionsData as any[]).filter((q: any) => q.type === 'fill').length,
   }
+
+  // Theme color classes
+  const bgGradient = themeColor === 'green' 
+    ? 'from-green-50 via-white to-emerald-50' 
+    : 'from-indigo-50 via-white to-purple-50'
+  const progressGradient = themeColor === 'green'
+    ? 'from-green-500 via-emerald-500 to-teal-500'
+    : 'from-indigo-500 via-purple-500 to-pink-500'
+  const btnPrimary = themeColor === 'green' ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'
+  const btnSecondary = themeColor === 'green' 
+    ? 'text-green-700 border-green-300 hover:bg-green-50' 
+    : 'text-indigo-700 border-indigo-300 hover:bg-indigo-50'
+  const textGradient = themeColor === 'green'
+    ? 'from-green-600 to-emerald-600'
+    : 'from-indigo-600 to-purple-600'
 
   const handleAnswer = (option: string) => {
     const currentAnswers = selectedAnswers[currentQ.id] || []
@@ -139,15 +167,28 @@ const ExamApp = () => {
   }
 
   const isAnswerCorrect = checkAnswer()
-  const currentAnswers = selectedAnswers[currentQ.id] || []
-  const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100
+  const currentAnswers = selectedAnswers[currentQ?.id] || []
+  const progress = filteredQuestions.length > 0 ? ((currentQuestion + 1) / filteredQuestions.length) * 100 : 0
+
+  // Show loading state if no questions
+  if (!questionsData || questionsData.length === 0) {
+    return (
+      <div className={`min-h-screen bg-gradient-to-br ${bgGradient} px-3 py-4 sm:p-6 flex items-center justify-center`}>
+        <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-8 text-center max-w-md">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">题库数据加载中...</h2>
+          <p className="text-gray-600 mb-6">请稍后，题目数据文件正在准备中</p>
+          <p className="text-sm text-gray-500">请确保 questions JSON 文件已正确配置</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-3 py-4 sm:p-6">
+    <div className={`min-h-screen bg-gradient-to-br ${bgGradient} px-3 py-4 sm:p-6`}>
       <div className="max-w-4xl mx-auto">
         <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-8 mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight mb-2">HCIP-openEuler 刷题系统</h1>
-          <p className="text-gray-600 text-sm sm:text-base">H12-623-CHS (winback考试) V1.0</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight mb-2">{title}</h1>
+          <p className="text-gray-600 text-sm sm:text-base">{subtitle}</p>
 
           <div className="flex items-center gap-2 sm:gap-3 mt-4 sm:mt-6 flex-wrap">
             <button
@@ -247,8 +288,9 @@ const ExamApp = () => {
           </div>
         </div>
 
-        <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-8 mb-8">
-          <div className="mb-4">
+        {currentQ && (
+          <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-8 mb-8">
+            <div className="mb-4">
             <span
               className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                 currentQ.type === 'judge'
@@ -412,6 +454,7 @@ const ExamApp = () => {
             </button>
           </div>
         </div>
+        )}
 
         <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">答题统计</h3>
