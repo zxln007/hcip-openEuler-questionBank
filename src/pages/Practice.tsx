@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Check, ChevronRight, ChevronLeft } from 'lucide-react'
-import questions from '../data/questions.json'
+import defaultQuestions from '../data/questions.json'
 
 type Mode = 'sequential' | 'random'
 
@@ -13,14 +13,15 @@ function shuffle<T>(arr: T[]): T[] {
   return copy
 }
 
-const Practice = () => {
+const Practice = (props: { questions?: any[]; themeColor?: 'indigo' | 'green'; title?: string }) => {
+  const { questions: propQuestions, title } = props
   const [mode, setMode] = useState<Mode>('sequential')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({})
   const [showAnswer, setShowAnswer] = useState(false)
 
   const ordered = useMemo(() => {
-    const base = questions as any[]
+    const base = (propQuestions || (defaultQuestions as any[])) as any[]
     return mode === 'random' ? shuffle(base) : base
   }, [mode])
 
@@ -63,7 +64,7 @@ const Practice = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-3 py-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-8 mb-8">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800 tracking-tight">背题模式</h1>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800 tracking-tight">{title || '背题模式'}</h1>
           <div className="mt-4 flex items-center gap-2 sm:gap-3 flex-wrap">
             <button
               onClick={() => { setMode('sequential'); setCurrentQuestion(0); setShowAnswer(false) }}

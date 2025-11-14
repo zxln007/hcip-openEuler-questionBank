@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Check, X, ChevronRight, ChevronLeft, RotateCcw } from 'lucide-react'
-import allQuestions from '../data/questions.json'
+import defaultQuestions from '../data/questions.json'
 
 type Q = any
 
@@ -16,7 +16,8 @@ function sample<T>(arr: T[], n: number): T[] {
   return copy.slice(0, Math.min(n, copy.length))
 }
 
-const RandomExam = () => {
+const RandomExam = (props: { questions?: any[]; themeColor?: 'indigo' | 'green'; title?: string }) => {
+  const { questions: propQuestions, title } = props
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({})
   const [showResult, setShowResult] = useState(false)
@@ -24,11 +25,12 @@ const RandomExam = () => {
 
   const generatedPaper = useMemo(() => {
     if (paper.length > 0) return paper
+    const source = (propQuestions || (defaultQuestions as Q[])) as Q[]
     const byType = {
-      single: (allQuestions as Q[]).filter((q) => q.type === 'single'),
-      multiple: (allQuestions as Q[]).filter((q) => q.type === 'multiple'),
-      judge: (allQuestions as Q[]).filter((q) => q.type === 'judge'),
-      fill: (allQuestions as Q[]).filter((q) => q.type === 'fill'),
+      single: source.filter((q) => q.type === 'single'),
+      multiple: source.filter((q) => q.type === 'multiple'),
+      judge: source.filter((q) => q.type === 'judge'),
+      fill: source.filter((q) => q.type === 'fill'),
     }
     const picked = [
       ...sample(byType.single, TARGETS.single),
@@ -152,7 +154,7 @@ const RandomExam = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-3 py-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="backdrop-blur-xl bg-white/70 rounded-2xl shadow-soft border border-white/20 p-4 sm:p-8 mb-8">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800 tracking-tight">随机出题模式</h1>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800 tracking-tight">{title || '随机出题模式'}</h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base">单选{TARGETS.single}×{POINTS.single}分，多选{TARGETS.multiple}×{POINTS.multiple}分，判断{TARGETS.judge}×{POINTS.judge}分，填空{TARGETS.fill}×{POINTS.fill}分，总分1000</p>
           <div className="mt-2 sm:mt-3 text-sm text-gray-700">实际抽取：单选{totals.actual.single}，多选{totals.actual.multiple}，判断{totals.actual.judge}，填空{totals.actual.fill}</div>
 

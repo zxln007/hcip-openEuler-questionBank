@@ -268,7 +268,7 @@ const ExamApp = ({
             <div className="text-xs text-gray-500 mb-1">提示：可拖动切换题目</div>
             <div className="relative w-full bg-gray-200/70 rounded-full h-2 sm:h-3 overflow-hidden">
               <div
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-300"
+                className={`bg-gradient-to-r ${progressGradient} h-full rounded-full transition-all duration-300`}
                 style={{ width: `${progress}%` }}
               ></div>
               <input
@@ -431,7 +431,7 @@ const ExamApp = ({
             <button
               onClick={showResult ? nextQuestion : submitAnswer}
               disabled={(!showResult && currentAnswers.length === 0) || (showResult && currentQuestion === filteredQuestions.length - 1)}
-              className="w-full sm:flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+              className={`w-full sm:flex-1 px-4 py-2 ${btnPrimary} text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400`}
             >
               {showResult ? '下一题' : '提交答案'}
             </button>
@@ -439,7 +439,7 @@ const ExamApp = ({
             <button
               onClick={nextQuestion}
               disabled={currentQuestion === filteredQuestions.length - 1}
-              className="flex items-center gap-2 px-4 py-2 bg-white text-indigo-700 border border-indigo-300 rounded-lg hover:bg-indigo-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+              className={`flex items-center gap-2 px-4 py-2 bg-white border ${btnSecondary} rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400`}
             >
               直接下一题
               <ChevronRight size={20} />
@@ -460,7 +460,7 @@ const ExamApp = ({
           <h3 className="text-lg font-semibold text-gray-800 mb-4">答题统计</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">{Object.keys(selectedAnswers).length}</div>
+              <div className={`text-xl sm:text-2xl font-bold bg-gradient-to-r ${textGradient} bg-clip-text text-transparent`}>{Object.keys(selectedAnswers).length}</div>
               <div className="text-sm text-gray-600">已答题数</div>
             </div>
             <div className="text-center">
