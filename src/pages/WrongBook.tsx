@@ -93,7 +93,6 @@ const WrongBook = (props: { questions?: any[]; themeColor?: 'indigo' | 'green'; 
 
   const primaryBtn = themeColor === 'green' ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'
   const headerBg = themeColor === 'green' ? 'bg-green-600' : 'bg-indigo-600'
-  const basePath = source === 'opengauss' ? '/opengauss' : '/openeuler'
   const close = () => navigate(-1)
 
   return (
