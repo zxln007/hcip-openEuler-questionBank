@@ -1,11 +1,36 @@
-import { StrictMode } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+import { Star } from 'lucide-react'
 import './index.css'
 import App from './App.tsx'
 import RandomExam from './pages/RandomExam'
 import Practice from './pages/Practice'
+
+const Stars = () => {
+  const [count, setCount] = useState<number | null>(null)
+  useEffect(() => {
+    fetch('https://api.github.com/repos/MRZHUH/hcip-openEuler-questionBank')
+      .then((r) => r.json())
+      .then((d) => setCount(typeof d.stargazers_count === 'number' ? d.stargazers_count : 0))
+      .catch(() => {})
+  }, [])
+  return (
+    <a
+      href="https://github.com/MRZHUH/hcip-openEuler-questionBank"
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center gap-1 px-2 py-1 rounded-md bg-white text-gray-800 border border-indigo-300 hover:bg-indigo-50 text-sm"
+    >
+      <Star size={16} className="text-yellow-500" />
+      <span>Star</span>
+      <span className="ml-1 inline-flex items-center justify-center min-w-[1.5rem] px-1 rounded bg-gray-100 text-gray-700">
+        {count === null ? '—' : String(count)}
+      </span>
+    </a>
+  )
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -42,6 +67,9 @@ createRoot(document.getElementById('root')!).render(
           >
             背题
           </NavLink>
+          <div className="ml-auto">
+            <Stars />
+          </div>
         </div>
       </div>
       <Routes>
