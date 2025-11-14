@@ -1,12 +1,14 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { HashRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Star } from 'lucide-react'
 import './index.css'
 import App from './App.tsx'
 import RandomExam from './pages/RandomExam'
 import Practice from './pages/Practice'
+import Selection from './pages/Selection'
+import { OpenGaussExam, OpenGaussPractice, OpenGaussRandomExam } from './pages/OpenGaussPages'
 
 const Stars = () => {
   const [count, setCount] = useState<number | null>(null)
@@ -32,50 +34,95 @@ const Stars = () => {
   )
 }
 
+const Navigation = () => {
+  const location = useLocation()
+  const showNav = !['/'].includes(location.pathname)
+  
+  if (!showNav) return null
+  
+  const isOpenGauss = location.pathname.startsWith('/opengauss')
+  const baseColor = isOpenGauss ? 'green' : 'indigo'
+  
+  return (
+    <div className="w-full bg-white/70 backdrop-blur border-b border-white/30">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3">
+        <NavLink
+          to={isOpenGauss ? '/opengauss' : '/openeuler'}
+          className={({ isActive }) =>
+            isActive
+              ? `px-3 py-1 rounded-md bg-${baseColor}-600 text-white shadow-sm text-sm sm:text-base`
+              : `px-3 py-1 rounded-md bg-white text-${baseColor}-700 border border-${baseColor}-300 hover:bg-${baseColor}-50 text-sm sm:text-base`
+          }
+        >
+          主页
+        </NavLink>
+        {!isOpenGauss ? (
+          <>
+            <NavLink
+              to="/openeuler/random"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm text-sm sm:text-base'
+                  : 'px-3 py-1 rounded-md bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 text-sm sm:text-base'
+              }
+            >
+              随机出题
+            </NavLink>
+            <NavLink
+              to="/openeuler/practice"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm text-sm sm:text-base'
+                  : 'px-3 py-1 rounded-md bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 text-sm sm:text-base'
+              }
+            >
+              背题
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="/opengauss/random"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-3 py-1 rounded-md bg-green-600 text-white shadow-sm text-sm sm:text-base'
+                  : 'px-3 py-1 rounded-md bg-white text-green-700 border border-green-300 hover:bg-green-50 text-sm sm:text-base'
+              }
+            >
+              随机出题
+            </NavLink>
+            <NavLink
+              to="/opengauss/practice"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-3 py-1 rounded-md bg-green-600 text-white shadow-sm text-sm sm:text-base'
+                  : 'px-3 py-1 rounded-md bg-white text-green-700 border border-green-300 hover:bg-green-50 text-sm sm:text-base'
+              }
+            >
+              背题
+            </NavLink>
+          </>
+        )}
+        <div className="ml-auto">
+          <Stars />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
-      <div className="w-full bg-white/70 backdrop-blur border-b border-white/30">
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? 'px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm text-sm sm:text-base'
-                : 'px-3 py-1 rounded-md bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 text-sm sm:text-base'
-            }
-          >
-            主页
-          </NavLink>
-          <NavLink
-            to="/random"
-            className={({ isActive }) =>
-              isActive
-                ? 'px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm text-sm sm:text-base'
-                : 'px-3 py-1 rounded-md bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 text-sm sm:text-base'
-            }
-          >
-            随机出题
-          </NavLink>
-          <NavLink
-            to="/practice"
-            className={({ isActive }) =>
-              isActive
-                ? 'px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm text-sm sm:text-base'
-                : 'px-3 py-1 rounded-md bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 text-sm sm:text-base'
-            }
-          >
-            背题
-          </NavLink>
-          <div className="ml-auto">
-            <Stars />
-          </div>
-        </div>
-      </div>
+      <Navigation />
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/random" element={<RandomExam />} />
-        <Route path="/practice" element={<Practice />} />
+        <Route path="/" element={<Selection />} />
+        <Route path="/openeuler" element={<App />} />
+        <Route path="/openeuler/random" element={<RandomExam />} />
+        <Route path="/openeuler/practice" element={<Practice />} />
+        <Route path="/opengauss" element={<OpenGaussExam />} />
+        <Route path="/opengauss/random" element={<OpenGaussRandomExam />} />
+        <Route path="/opengauss/practice" element={<OpenGaussPractice />} />
       </Routes>
     </HashRouter>
     <SpeedInsights />
