@@ -1,7 +1,8 @@
 # HCIP-openEuler 刷题系统 包含HCIP-openGauss 题库
 
 基于 React + TypeScript + Vite 构建的前端项目，已适配移动端，支持顺序/随机刷题、随机出题、进度条拖动跳题与显示答案。
-
+![alt text](images/index.png)
+![alt text](images/exam.png)
 ## 启动开发环境
 
 要求 Node.js 18+。

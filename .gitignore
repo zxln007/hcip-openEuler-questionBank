@@ -39,7 +39,7 @@ dist-ssr
 src/data/questions-bak.json
 public/*.svg
 src/assets/**
-**/*.png
+
 **/*.jpg
 **/*.jpeg
 **/*.gif
