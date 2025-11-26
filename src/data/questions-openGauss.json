@@ -609,7 +609,7 @@
       "C.一键部署 openGauss",
       "D.数据迁移"
     ],
-    "correctAnswer": ["ABCD"]
+    "correctAnswer": ["A"，"B"，"C","D"]
   },
   {
     "id": 52,
@@ -621,7 +621,7 @@
       "C.UNSIGNED",
       "D.SPATIAL INDEX()"
     ],
-    "correctAnswer": ["ABD"]
+    "correctAnswer": ["A","B","D"]
   },
   {
     "id": 53,
@@ -633,7 +633,7 @@
       "C.客户端证书",
       "D.密钥"
     ],
-    "correctAnswer": ["BCD"]
+    "correctAnswer": ["B","C","D"]
   },
   {
     "id": 54,
@@ -645,7 +645,7 @@
       "C.支持添加(Add)和删除(Drop)对应的加密列",
       "D.支持通过 Alter Table 语法实现对加密表列的更改"
     ],
-    "correctAnswer": ["ABD"]
+    "correctAnswer": ["A","B","D"]
   },
   {
     "id": 55,
@@ -657,7 +657,7 @@
       "C.不允许指定分区表为防篡改表",
       "D.不允许 truncate 防篡改相关表"
     ],
-    "correctAnswer": ["ABD"]
+    "correctAnswer": ["A","B","D"]
   },
   {
     "id": 56,
