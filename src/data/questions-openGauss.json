@@ -782,8 +782,7 @@
   {
     "id": 68,
     "type": "judgment",
-    "question": "openGauss 中的“||”操作符默认为字符串连接符，当 dolphin.sql_mode 中包含pipes_as_concat 时，“||”表示字符串连接符。当不包含 pipes_as_concat 时，“||”表
-示或操作符。",
+    "question": "openGauss 中的“||”操作符默认为字符串连接符，当 dolphin.sql_mode 中包含pipes_as_concat 时，“||”表示字符串连接符。当不包含 pipes_as_concat 时，“||”表示或操作符。",
     "options": [
       "正确",
       "错误"
