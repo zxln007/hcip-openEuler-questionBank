@@ -692,8 +692,7 @@
   {
     "id": 59,
     "type": "judgment",
-    "question": "对象所有者的权限（例如 ALTER、DROP、COMMENT、INDEX、VACUUM、GRANT 和 REVOKE）是隐式拥有的，即只要拥有对象就可以执行对象所有者的这些隐式权限。但对象所有者不可
-以撤销自己的普通权限。",
+    "question": "对象所有者的权限（例如 ALTER、DROP、COMMENT、INDEX、VACUUM、GRANT 和 REVOKE）是隐式拥有的，即只要拥有对象就可以执行对象所有者的这些隐式权限。但对象所有者不可以撤销自己的普通权限。",
     "options": [
       "正确",
       "错误"
@@ -703,9 +702,7 @@
   {
     "id": 60,
     "type": "judgment",
-    "question": "ANY 权限属于数据库内的权限，只对授予该权限的数据库内的对象有效，例如 SELECT ANY TABLE 只允许用户查看当前数据库内的所有用户表数据，对其他数据库内的用户表无查看权
-限。
-正确",
+    "question": "ANY 权限属于数据库内的权限，只对授予该权限的数据库内的对象有效，例如 SELECT ANY TABLE 只允许用户查看当前数据库内的所有用户表数据，对其他数据库内的用户表无查看权限。"
     "options": [
       "正确",
       "错误"
