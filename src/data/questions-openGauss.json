@@ -609,7 +609,7 @@
       "C.一键部署 openGauss",
       "D.数据迁移"
     ],
-    "correctAnswer": ["A"，"B"，"C","D"]
+    "correctAnswer": ["A","B","C","D"]
   },
   {
     "id": 52,
